@@ -11,7 +11,7 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
  * @Date 2019/12/30 16:23
  **/
 @SpringBootApplication
-@EnableEurekaServer
+@EnableEurekaServer //开启Eureka服务
 public class LyRegistry {
     public static void main(String[] args) {
         SpringApplication.run(LyRegistry.class,args);

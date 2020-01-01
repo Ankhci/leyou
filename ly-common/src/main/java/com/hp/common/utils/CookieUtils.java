@@ -1,4 +1,4 @@
-package com.leyou.common.utils;
+package com.hp.common.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
