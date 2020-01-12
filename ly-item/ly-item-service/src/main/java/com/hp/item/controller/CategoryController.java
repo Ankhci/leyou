@@ -5,10 +5,7 @@ import com.hp.item.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,5 +29,16 @@ public class CategoryController {
             return ResponseEntity.ok(categoryList);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @GetMapping("bid/{bid}")
+    public ResponseEntity<List<Category>> queryByBrandId(@PathVariable("bid") Long bid){
+        List<Category> categoryList = categoryService.queryByBrandId(bid);
+        if(categoryList != null && categoryList.size() > 0){
+            //如果有数据就返回200跟数据
+            return ResponseEntity.ok(categoryList);
+        }
+        //没有数据就返回没有数据
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

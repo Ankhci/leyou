@@ -6,10 +6,9 @@ import com.hp.common.pojo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @ClassName BrandController
@@ -40,4 +39,32 @@ public class BrandController {
     }
 
 
+    /**
+     * @Description 
+     *  * @param Brand
+     * @Return      
+     * @Exception   新增品牌
+     * @Author      Ankhci
+     * @Date        2020/1/2 22:45
+     */
+    @PostMapping
+    public ResponseEntity<Void> addBrand(Brand brand, @RequestParam("cids")List<Long> cids){
+        brandService.addBrand(brand,cids);
+        return ResponseEntity.status(HttpStatus.CREATED).build(); //201
+    }
+
+    /**
+     * @Description 编辑修改信息
+     * @Return
+     * @Exception
+     * @Author      Ankhci
+     * @Date        2020/1/12 22:20
+     */
+
+    @PutMapping
+    public ResponseEntity<Void> updateBrand(Brand brand, @RequestParam("cids")List<Long> cids){
+        brandService.updateBrand(brand,cids);
+        return ResponseEntity.status(HttpStatus.CREATED).build(); //201
+
+    }
 }

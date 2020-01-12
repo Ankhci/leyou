@@ -15,7 +15,10 @@ import com.hp.common.pojo.PageResult;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
+
+import java.util.List;
 
 @Service
 public class BrandService {
@@ -47,5 +50,28 @@ public class BrandService {
         Page<Brand> brandPage= (Page<Brand>)brandMapper.selectByExample(example);
 
         return new PageResult<>(brandPage.getTotal(),new Long(brandPage.getPages()),brandPage.getResult());
+    }
+
+    @Transactional //进行事务管理
+    public void addBrand(Brand brand, List<Long> cids) {
+        //插入tb_brand
+        brandMapper.insertSelective(brand);
+        //插入中间表 tb_category_brand
+        for (Long i:cids){
+            brandMapper.insertBrandCategory(i,brand.getId());
+
+        }
+    }
+
+    @Transactional //涉及增删改就要加事务
+    public void updateBrand(Brand brand, List<Long> cids) {
+        //第一步 ，先更新tb_brand 表
+        this.brandMapper.updateByPrimaryKey(brand);
+        //第二步，删除中间表
+        this.brandMapper.deleteBrandCategory(brand.getId());
+        //第三部，新增 插入中间表 tb_category_brand 的第二种写法
+        cids.forEach(t->{
+            brandMapper.insertBrandCategory(t,brand.getId());
+        });
     }
 }

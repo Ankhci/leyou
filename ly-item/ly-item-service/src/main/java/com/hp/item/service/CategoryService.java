@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class CategoryService {
 
-    @Autowired
+    @Autowired //DAO层
     private CategoryMapper categoryMapper;
 
     public List<Category> queryByParentId(Long id) {
@@ -24,5 +24,9 @@ public class CategoryService {
         Category category = new Category();
         category.setParentId(id);
         return categoryMapper.select(category);
+    }
+
+    public List<Category> queryByBrandId(Long bid) {
+        return categoryMapper.queryByBrandId(bid);
     }
 }
